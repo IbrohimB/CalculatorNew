@@ -9,12 +9,11 @@ import android.view.WindowManager
 import eu.tutorials.newcalculator.databinding.ActivityMainBinding
 
 
-class MainActivity : AppCompatActivity() , OnClickListener{
+class MainActivity : AppCompatActivity(), OnClickListener {
 
-    private lateinit var binding:ActivityMainBinding
-    var lastNumeric:Boolean= false
-    var lastDot: Boolean=false
-
+    private lateinit var binding: ActivityMainBinding
+    var lastNumeric: Boolean = false
+    var lastDot: Boolean = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,15 +22,10 @@ class MainActivity : AppCompatActivity() , OnClickListener{
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setListeners()
-
-
     }
 
 
-
-    private fun setListeners(){
-
-
+    private fun setListeners() {
         binding.btnOne.setOnClickListener(this)
         binding.btnTwo.setOnClickListener(this)
         binding.btnThree.setOnClickListener(this)
@@ -49,14 +43,11 @@ class MainActivity : AppCompatActivity() , OnClickListener{
         binding.btnDot.setOnClickListener(this)
         binding.btnEqual.setOnClickListener(this)
         binding.btnClear.setOnClickListener(this)
-
-
     }
 
     override fun onClick(v: View?) {
         when (v) {
             binding.btnOne -> {
-                println("hop one clicked")
                 lastEntered("1")
             }
             binding.btnTwo -> {
@@ -83,33 +74,27 @@ class MainActivity : AppCompatActivity() , OnClickListener{
             binding.btnNine -> {
                 lastEntered("9")
             }
-
             binding.btnZero -> {
                 lastEntered("0")
             }
             binding.btnDot -> {
                 onDecimalPoint()
             }
-
             binding.btnClear -> {
                 clearInputField()
             }
-
             binding.btnAdd -> {
                 onOperator("+")
             }
             binding.btnSubtract -> {
                 onOperator("-")
             }
-
             binding.btnDivide -> {
                 onOperator("/")
             }
-
             binding.btnMultiply -> {
                 onOperator("*")
             }
-
             binding.btnEqual -> {
                 onEqual("=")
             }
@@ -117,112 +102,116 @@ class MainActivity : AppCompatActivity() , OnClickListener{
         }
     }
 
-    private fun onOperator(input: String){
-        binding.tvInput?.text?.let {
-            if (lastNumeric && !isOperatorAdded(it.toString())){
-                binding.tvInput.append(input)
-                lastNumeric=false
-                lastDot=false
+    private fun onOperator(input: String) {
+        binding.tvInput.text?.let {
+            if (lastNumeric && !isOperatorAdded(it.toString())) {
+
+                val existingText = binding.tvInput.text.toString()
+                val updatedText = existingText + input
+
+                binding.tvInput.text = updatedText
+                lastNumeric = false
+                lastDot = false
             }
         }
     }
 
-    private fun lastEntered(input : String) {
+    private fun lastEntered(input: String) {
 
-        binding.tvInput.append(input)
-        lastNumeric=true
-        lastDot=false
+        val existingText = binding.tvInput.text.toString()
+        val updatedText = existingText + input
+        binding.tvInput.text = updatedText
+        lastNumeric = true
+        lastDot = false
 
 
         //
     }
 
-    private fun clearInputField(){
+    private fun clearInputField() {
         binding.tvInput.text = ""
     }
 
-    private fun onDecimalPoint(){
-        if (lastNumeric&& !lastDot){
+    private fun onDecimalPoint() {
+        if (lastNumeric && !lastDot) {
             binding.tvInput.append(".")
-            lastNumeric=false
-            lastDot=true
+            lastNumeric = false
+            lastDot = true
         }
 
     }
 
-    private fun onEqual(input: String){
-        if (lastNumeric){
-            var tvValue=binding.tvInput.text.toString()
-            var prefix =""
+    private fun onEqual(input: String) {
+        if (lastNumeric) {
+            var tvValue = binding.tvInput.text.toString()
+            var prefix = ""
             try {
-                if(tvValue.startsWith("-")) {
+                if (tvValue.startsWith("-")) {
                     prefix = "-"
                     tvValue = tvValue.substring(1)
                 }
-                if(tvValue.contains("-")) {
+                if (tvValue.contains("-")) {
                     val splitValue = tvValue.split("-")
                     var one = splitValue[0]
                     var two = splitValue[1]
 
-                    if(prefix.isNotEmpty()){
-                        one=prefix+one
+                    if (prefix.isNotEmpty()) {
+                        one = prefix + one
                     }
 
                     binding.tvInput.text = removeZeroAfterDot((one.toDouble() - two.toDouble()).toString())
-                }else if(tvValue.contains("+")) {
+                } else if (tvValue.contains("+")) {
                     val splitValue = tvValue.split("+")
                     var one = splitValue[0]
                     var two = splitValue[1]
 
-                    if(prefix.isNotEmpty()){
-                        one=prefix+one
+                    if (prefix.isNotEmpty()) {
+                        one = prefix + one
                     }
 
                     binding.tvInput.text = removeZeroAfterDot((one.toDouble() + two.toDouble()).toString())
-                }else if(tvValue.contains("/")) {
+                } else if (tvValue.contains("/")) {
                     val splitValue = tvValue.split("/")
                     var one = splitValue[0]
                     var two = splitValue[1]
 
-                    if(prefix.isNotEmpty()){
-                        one=prefix+one
+                    if (prefix.isNotEmpty()) {
+                        one = prefix + one
                     }
 
                     binding.tvInput.text = removeZeroAfterDot((one.toDouble() / two.toDouble()).toString())
-                }else if(tvValue.contains("*")) {
+                } else if (tvValue.contains("*")) {
                     val splitValue = tvValue.split("*")
                     var one = splitValue[0]
                     var two = splitValue[1]
 
-                    if(prefix.isNotEmpty()){
-                        one=prefix+one
+                    if (prefix.isNotEmpty()) {
+                        one = prefix + one
                     }
 
                     binding.tvInput.text = removeZeroAfterDot((one.toDouble() * two.toDouble()).toString())
                 }
 
 
-
-
-            }catch (e:ArithmeticException){
+            } catch (e: ArithmeticException) {
                 e.printStackTrace()
             }
         }
     }
 
-    private fun removeZeroAfterDot(result:String):String{
-        var value=result
+    private fun removeZeroAfterDot(result: String): String {
+        var value = result
         if (result.contains(".0"))
-            value=result.substring(0,result.length-2)
+            value = result.substring(0, result.length - 2)
 
         return value
     }
 
 
-    private fun isOperatorAdded(value:String):Boolean{
-        return if(value.startsWith("-")){
+    private fun isOperatorAdded(value: String): Boolean {
+        return if (value.startsWith("-")) {
             false
-        }else{
+        } else {
             value.contains("/")
                     || value.contains("*")
                     || value.contains("+")
@@ -231,4 +220,6 @@ class MainActivity : AppCompatActivity() , OnClickListener{
 
         }
     }
+
+
 }

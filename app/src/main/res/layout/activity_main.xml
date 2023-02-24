@@ -7,18 +7,27 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvInput"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="@color/light_grey"
-        android:gravity="end|bottom"
-        android:padding="10dp"
-        android:textSize="48sp" />
+        android:layout_height="200dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/light_grey"
+            android:lines="1"
+            android:gravity="bottom|right"
+            app:autoSizeMaxTextSize="48sp"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            tools:text="123456789012345" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -74,7 +83,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -130,7 +139,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -186,7 +195,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
@@ -242,8 +251,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
@@ -254,6 +263,7 @@
             android:text="@string/equal"
             android:textColor="@color/bluedark"
             app:cornerRadius="36dp"
+            android:textSize="48sp"
             tools:ignore="UsingOnClickInXml" />
 
     </LinearLayout>
